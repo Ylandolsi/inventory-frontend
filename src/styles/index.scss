@@ -1,0 +1,53 @@
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 100%; /*or min-width: 380px*/
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  text-wrap: wrap;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0em 0em;
+  font-size: 1em;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  display: flex;
+  justify-content: left;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+#root {
+  padding: 20px 0;
+  width: 80%; /* or max-width: 1280px*/
+  @media screen and (max-width: 640px) {
+    width: 90%;
+  }
+}
+
+.homeButton {
+  align-items: center;
+  padding-right: 20px;
+
+  @media (max-width: 640px) {
+    padding-bottom: 0;
+  }
+}
