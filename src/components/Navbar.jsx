@@ -15,18 +15,20 @@ export function Navbar() {
       style={{
         borderBottom: "1px solid var(--accent-foreground)",
       }}
-      className="flex flex-col gap-4  pb-5"
+      className="flex flex-col gap-4  pb-5 pl-5"
     >
-      <h1 className="font-bold">Bookstore Inventory</h1>
-      <div className="flex w-full text-4xl  sm:text-xl items-start justify-between flex-col sm:flex-row sm:items-center">
+      <p className="font-bold text-[clamp(10px,5vw,50px)]">
+        Bookstore Inventory
+      </p>
+      <div className="flex w-full items-start justify-between flex-col sm:flex-row sm:items-center">
         <NavigationMenu>
           <NavigationMenuList>
             <div className="flex flex-col sm:flex-row sm:justify-start sm:items-center text-left">
-              <button className="homeButton">
+              <button className="homeButton nv-btn">
                 <a href="/">Home</a>
               </button>
               <NavigationMenuItem className="flex-grow">
-                <NavigationMenuTrigger>
+                <NavigationMenuTrigger className="nv-btn">
                   <a href="/books">Books</a>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="flex flex-col gap-2 min-w-70">
@@ -42,7 +44,7 @@ export function Navbar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>
+                <NavigationMenuTrigger className="nv-btn">
                   <a href="/authors">Authors</a>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="flex flex-col gap-2 min-w-70">
@@ -58,7 +60,7 @@ export function Navbar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>
+                <NavigationMenuTrigger className="nv-btn">
                   <a href="/genres"> Genres</a>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="flex flex-col gap-2 min-w-70">

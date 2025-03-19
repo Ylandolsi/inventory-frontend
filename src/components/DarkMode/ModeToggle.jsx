@@ -7,14 +7,14 @@ export function ModeToggle() {
 
   return (
     <Button
-      // variant="custom"
       variant="outline"
       size="icon"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       className="cursor-pointer"
     >
-      <Sun className="h-12 w-12 dark:hidden" />
-      <Moon className="h-8 w-8 hidden dark:block" />
+      <Sun className="h-5 w-5 dark:hidden" />
+      <Moon className="h-5 w-5 hidden dark:block" />
+      <span className="sr-only">Toggle theme</span>
     </Button>
   );
 }

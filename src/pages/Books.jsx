@@ -1,3 +1,3 @@
 export function Books() {
-  return <div>Books</div>;
+  return <div className="grow">Books</div>;
 }

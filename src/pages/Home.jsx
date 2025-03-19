@@ -7,7 +7,9 @@ export function Home() {
   const rgbValue = accentColor.join(", ");
   return (
     <div className="flex flex-col gap-5 items-center m-5 p-10 border rounded-lg">
-      <h1 className="font-bold">Welcome to the Bookstore Inventory</h1>
+      <p className="font-bold text-[clamp(10px,5vw,50px)] ">
+        Welcome to the Bookstore Inventory
+      </p>
       <p
         style={{
           fontWeight: 200,
@@ -52,7 +54,7 @@ export function Home() {
           <a
             href="/books/add"
             style={{ backgroundColor: `rgba(${rgbValue},0.2)` }}
-            className="flex grow   gap-8 p-5 rounded-lg h-20 items-center"
+            className="flex grow   gap-8 p-3 rounded-lg items-center"
           >
             <Plus></Plus>
             <div className="flex flex-col justify-center">
@@ -63,7 +65,7 @@ export function Home() {
           <a
             href="/books/add"
             style={{ backgroundColor: `rgba(${rgbValue},0.2)` }}
-            className="flex grow  gap-8 p-5 rounded-lg h-20 items-center"
+            className="flex grow  gap-8 p-3 rounded-lg  items-center"
           >
             <Plus></Plus>
             <div className="flex flex-col justify-center">
@@ -74,7 +76,7 @@ export function Home() {
           <a
             href="/books/add"
             style={{ backgroundColor: `rgba(${rgbValue},0.2)` }}
-            className="flex grow  gap-8 p-5 rounded-lg h-20 items-center"
+            className="flex grow  gap-8 p-3 rounded-lg items-center"
           >
             <Plus></Plus>
             <div className="flex flex-col justify-center">
