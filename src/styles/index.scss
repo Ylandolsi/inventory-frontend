@@ -43,7 +43,7 @@ a {
 }
 
 #root {
-  padding: 20px 0;
+  padding: 20px 40px;
   max-width: 1280px;
   margin: 0 auto;
 
@@ -52,6 +52,10 @@ a {
   // @media screen and (max-width: 640px) {
   //   width: 90%;
   // }
+
+  @media screen and (max-width: 640px) {
+    padding: 20px;
+  }
 }
 
 .homeButton {

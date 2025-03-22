@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 import { Home } from "./pages/Home/Home.jsx";
-import { Books } from "./pages/Get/Book/Books.jsx";
+import { Books, BooksLoader } from "./pages/Get/Book/Books.jsx";
 import { Authors, LoadAuthors } from "./pages/Get/Author/Authors.jsx";
 import { Genres } from "./pages/Get/Genre/Genres.jsx";
 import { NotFound } from "./pages/NotFound.jsx";
@@ -24,7 +24,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout />} errorElement={<Error />}>
       <Route index element={<Home />} />
       <Route path="books" element={<BooksLayout />}>
-        <Route index element={<Books />} />
+        <Route index element={<Books />} loader={BooksLoader} />
         <Route path="add" element={<AddBook />} loader={addBookLoader} />
       </Route>
       <Route path="authors" element={<AuthorsLayout />}>
