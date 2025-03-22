@@ -17,10 +17,11 @@ import { BooksLayout } from "./layouts/BooksLayout.jsx";
 import { AuthorsLayout } from "./layouts/AuthrosLayout.jsx";
 import { GenresLayout } from "./layouts/GenresLayout.jsx";
 import { AddGenre } from "./pages/Add/Genre/AddGenre.jsx";
+import { Error } from "./pages/Error.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
+    <Route path="/" element={<RootLayout />} errorElement={<Error />}>
       <Route index element={<Home />} />
       <Route path="books" element={<BooksLayout />}>
         <Route index element={<Books />} />
@@ -34,12 +35,6 @@ const router = createBrowserRouter(
         <Route index element={<Genres />} />
         <Route path="add" element={<AddGenre />} />
       </Route>
-
-      {/* <Route
-        path=":id"
-        element={<CareerDetails />}
-        loader={careerDetailsLoader}
-      /> */}
 
       <Route path="*" element={<NotFound />} />
     </Route>
