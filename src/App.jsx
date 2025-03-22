@@ -11,11 +11,12 @@ import { Authors, LoadAuthors } from "./pages/Get/Author/Authors.jsx";
 import { Genres } from "./pages/Get/Genre/Genres.jsx";
 import { NotFound } from "./pages/NotFound.jsx";
 import { RootLayout } from "./layouts/RootLayout.jsx";
-import { AddBook } from "./pages/Add/Book/AddBook.jsx";
+import { AddBook, addBookLoader } from "./pages/Add/Book/AddBook.jsx";
 import { AddAuthor } from "./pages/Add/Author/AddAuthor.jsx";
 import { BooksLayout } from "./layouts/BooksLayout.jsx";
 import { AuthorsLayout } from "./layouts/AuthrosLayout.jsx";
 import { GenresLayout } from "./layouts/GenresLayout.jsx";
+import { AddGenre } from "./pages/Add/Genre/AddGenre.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,7 +24,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="books" element={<BooksLayout />}>
         <Route index element={<Books />} />
-        <Route path="add" element={<AddBook />} />
+        <Route path="add" element={<AddBook />} loader={addBookLoader} />
       </Route>
       <Route path="authors" element={<AuthorsLayout />}>
         <Route index element={<Authors />} loader={LoadAuthors} />
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="genres" element={<GenresLayout />}>
         <Route index element={<Genres />} />
+        <Route path="add" element={<AddGenre />} />
       </Route>
 
       {/* <Route

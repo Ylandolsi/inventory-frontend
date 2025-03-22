@@ -8,8 +8,8 @@ body {
 }
 
 body {
-  color: var(--Atext);
-  background-color: var(--Abg);
+  color: var(--text);
+  background-color: var(--bg);
   min-width: 380px;
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
@@ -65,16 +65,15 @@ a {
 
 .AddNewTitle {
   font-size: 1.5em;
-  font-weight: 500;
   margin-bottom: 20px;
   font-weight: bold;
-  color: var(--Aaccent);
+  color: var(--accent);
 }
 
 .boxform {
   display: flex;
   flex-direction: column;
-  background-color: var(--Asecondary10);
+  background-color: var(--secondary10);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);

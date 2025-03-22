@@ -1,13 +1,13 @@
-import "./AddAuthor.scss";
-export function AddAuthor({ style }) {
+import "./AddGenre.scss";
+export function AddGenre({ style }) {
   return (
-    <div className="auth" style={style}>
+    <div className="genreaddform" style={style}>
       <div className="flex flex-col px-6">
-        <p className="AddNewTitle"> Add New Author</p>
+        <p className="AddNewTitle"> Add New Genre</p>
         <div className="boxform gap-2 ">
           <div className="flex flex-col gap-3">
             <label htmlFor="authorName" className="text-lg font-[500]">
-              Author Name:
+              Genre Name:
             </label>
             <input
               id="authorName"
@@ -17,7 +17,7 @@ export function AddAuthor({ style }) {
           </div>
           <div className="flex flex-col gap-3">
             <label htmlFor="authorBio" className="text-lg font-[500]">
-              Author Bio:
+              Description:
             </label>
             <textarea
               id="authorBio"
@@ -27,7 +27,7 @@ export function AddAuthor({ style }) {
           </div>
         </div>
         <div className="flex mt-10 gap-5">
-          <button className="btn add">Add Author</button>
+          <button className="btn add">Add Genre</button>
           <button className="btn cancel">Cancel</button>
         </div>
       </div>
