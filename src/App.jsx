@@ -5,19 +5,33 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { Home } from "./pages/Home";
-import { Books } from "./pages/Books";
-import { Authors } from "./pages/Authors";
-import { Genres } from "./pages/Genres";
-import { NotFound } from "./pages/NotFound";
-import { RootLayout } from "./layouts/RootLayout";
+import { Home } from "./pages/Home/Home.jsx";
+import { Books } from "./pages/Get/Book/Books.jsx";
+import { Authors, LoadAuthors } from "./pages/Get/Author/Authors.jsx";
+import { Genres } from "./pages/Get/Genre/Genres.jsx";
+import { NotFound } from "./pages/NotFound.jsx";
+import { RootLayout } from "./layouts/RootLayout.jsx";
+import { AddBook } from "./pages/Add/Book/AddBook.jsx";
+import { AddAuthor } from "./pages/Add/Author/AddAuthor.jsx";
+import { BooksLayout } from "./layouts/BooksLayout.jsx";
+import { AuthorsLayout } from "./layouts/AuthrosLayout.jsx";
+import { GenresLayout } from "./layouts/GenresLayout.jsx";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<Home />} />
-      <Route path="Books" element={<Books />} />
-      <Route path="Authors" element={<Authors />} />
-      <Route path="Genres" element={<Genres />} />
+      <Route path="books" element={<BooksLayout />}>
+        <Route index element={<Books />} />
+        <Route path="add" element={<AddBook />} />
+      </Route>
+      <Route path="authors" element={<AuthorsLayout />}>
+        <Route index element={<Authors />} loader={LoadAuthors} />
+        <Route path="add" element={<AddAuthor />} />
+      </Route>
+      <Route path="genres" element={<GenresLayout />}>
+        <Route index element={<Genres />} />
+      </Route>
 
       {/* <Route
         path=":id"

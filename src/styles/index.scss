@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
 html,
 body {
   margin: 0;
@@ -6,10 +8,11 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background-color: var(--background);
+  color: var(--Atext);
+  background-color: var(--Abg);
   min-width: 380px;
   min-height: 100vh;
+  font-family: "Poppins", sans-serif;
 }
 
 h1 {
@@ -34,7 +37,6 @@ h1 {
 }
 
 a {
-  color: var(--color-primary);
   text-decoration: none;
   font-size: 1em;
   font-weight: 500;
@@ -59,4 +61,32 @@ a {
   @media (max-width: 640px) {
     padding-bottom: 0;
   }
+}
+
+.AddNewTitle {
+  font-size: 1.5em;
+  font-weight: 500;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: var(--Aaccent);
+}
+
+.boxform {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Asecondary10);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

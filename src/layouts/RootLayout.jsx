@@ -1,6 +1,6 @@
 import { ModeToggle } from "@/components/DarkMode/ModeToggle";
 import { ThemeProvider } from "../components/DarkMode/ThemeProvider";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
 
 export function RootLayout() {

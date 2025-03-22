@@ -1,4 +1,5 @@
-import { ModeToggle } from "./DarkMode/ModeToggle";
+import { NavLink } from "react-router-dom";
+import { ModeToggle } from "../DarkMode/ModeToggle";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -6,7 +7,9 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "./ui/navigation-menu";
+} from "../ui/navigation-menu";
+
+import "./Navbar.scss";
 
 import { Plus } from "lucide-react";
 export function Navbar() {
@@ -17,61 +20,59 @@ export function Navbar() {
       }}
       className="flex flex-col gap-4  pb-5 pl-5"
     >
-      <p className="font-bold text-[clamp(10px,5vw,50px)]">
-        Bookstore Inventory
-      </p>
+      <p className="Title">Bookstore Inventory</p>
       <div className="flex w-full items-start justify-between flex-col sm:flex-row sm:items-center">
         <NavigationMenu>
           <NavigationMenuList>
             <div className="flex flex-col sm:flex-row sm:justify-start sm:items-center text-left">
               <button className="homeButton nv-btn">
-                <a href="/">Home</a>
+                <NavLink to="/">Home</NavLink>
               </button>
               <NavigationMenuItem className="flex-grow">
                 <NavigationMenuTrigger className="nv-btn">
-                  <a href="/books">Books</a>
+                  <NavLink to="/books">Books</NavLink>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="flex flex-col gap-2 min-w-70">
                   <NavigationMenuLink asChild>
-                    <a
-                      href="/books/add"
+                    <NavLink
+                      to="/books/add"
                       className="flex flex-row items-center gap-2"
                     >
                       <Plus size={18} />
                       Add Book
-                    </a>
+                    </NavLink>
                   </NavigationMenuLink>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="nv-btn">
-                  <a href="/authors">Authors</a>
+                  <NavLink to="/authors">Authors</NavLink>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="flex flex-col gap-2 min-w-70">
                   <NavigationMenuLink asChild>
-                    <a
-                      href="/authors/add"
+                    <NavLink
+                      to="/authors/add"
                       className="flex flex-row items-center gap-2"
                     >
                       <Plus size={18} />
                       Add Author
-                    </a>
+                    </NavLink>
                   </NavigationMenuLink>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="nv-btn">
-                  <a href="/genres"> Genres</a>
+                  <NavLink to="/genres"> Genres</NavLink>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="flex flex-col gap-2 min-w-70">
                   <NavigationMenuLink asChild>
-                    <a
-                      href="/genres/add"
+                    <NavLink
+                      to="/genres/add"
                       className="flex flex-row items-center gap-2"
                     >
                       <Plus size={18} />
                       Add Genre
-                    </a>
+                    </NavLink>
                   </NavigationMenuLink>
                 </NavigationMenuContent>
               </NavigationMenuItem>
