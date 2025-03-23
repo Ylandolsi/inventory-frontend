@@ -1,15 +1,19 @@
 import { Plus } from "lucide-react";
-import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import "./Authors.scss";
+import { AuthorContext } from "@/components/Contexts/AuthorContext";
 
 export function Authors() {
-  const allAuthors = useLoaderData();
-  const [Authors, setAuthors] = useState(allAuthors);
+  const { authors } = useContext(AuthorContext);
+  const [Authors, setAuthors] = useState(authors);
+
+  useEffect(() => {
+    setAuthors(authors);
+  }, [authors]);
 
   const fetchAuthorsSearch = async (search) => {
     console.log(search);
-    if (search == "") setAuthors(allAuthors);
+    if (search == "") setAuthors(authors);
     else {
       console.log("fetching");
       const response = await fetch(
@@ -84,13 +88,4 @@ export function Authors() {
       </div>
     </div>
   );
-}
-
-export async function AuthorsLoader() {
-  const authors = await fetch("http://localhost:5159/api/authors");
-  if (!authors.ok) {
-    throw new Error("Failed to fetch authors");
-  }
-  console.log(authors);
-  return await authors.json();
 }

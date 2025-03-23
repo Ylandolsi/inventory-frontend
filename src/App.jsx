@@ -5,20 +5,39 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { Home } from "./pages/Home/Home.jsx";
-import { Books, BooksLoader } from "./pages/Get/Book/Books.jsx";
-import { Authors, AuthorsLoader } from "./pages/Get/Author/Authors.jsx";
-import { Genres, GenresLoader } from "./pages/Get/Genre/Genres.jsx";
-import { NotFound } from "./pages/NotFound.jsx";
+import { Home } from "./components/pages/Home/Home.jsx";
+
+import { NotFound } from "./components/pages/NotFound.jsx";
+import { Error } from "./components/pages/Error.jsx";
+
+// Fetch
+import { Books, BooksLoader } from "./components/pages/Get/Book/Books.jsx";
+import { Authors } from "./components/pages/Get/Author/Authors.jsx";
+import { Genres } from "./components/pages/Get/Genre/Genres.jsx";
+
+// Layouts
 import { RootLayout } from "./layouts/RootLayout.jsx";
-import { AddBook, addBookLoader } from "./pages/Add/Book/AddBook.jsx";
-import { AddAuthor } from "./pages/Add/Author/AddAuthor.jsx";
 import { BooksLayout } from "./layouts/BooksLayout.jsx";
 import { AuthorsLayout } from "./layouts/AuthrosLayout.jsx";
 import { GenresLayout } from "./layouts/GenresLayout.jsx";
-import { AddGenre } from "./pages/Add/Genre/AddGenre.jsx";
-import { Error } from "./pages/Error.jsx";
-import { EditBook, EditBookLoader } from "./pages/Edit/Book/EditBook.jsx";
+
+// Add
+import { AddBook } from "./components/pages/Add/Book/AddBook.jsx";
+import { AddAuthor } from "./components/pages/Add/Author/AddAuthor.jsx";
+import { AddGenre } from "./components/pages/Add/Genre/AddGenre.jsx";
+
+// Edit
+import {
+  EditBook,
+  EditBookLoader,
+} from "./components/pages/Edit/Book/EditBook.jsx";
+
+import { EditAuthor } from "./components/pages/Edit/Author/EditAuthor.jsx";
+import { EditGenre } from "./components/pages/Edit/Genre/EditGenre.jsx";
+
+// Contexts
+import { GenreProvider } from "./components/Contexts/GenreContext.jsx";
+import { AuthorProvider } from "./components/Contexts/AuthorContext.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,16 +45,18 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="books" element={<BooksLayout />}>
         <Route index element={<Books />} loader={BooksLoader} />
-        <Route path="add" element={<AddBook />} loader={addBookLoader} />
+        <Route path="add" element={<AddBook />} />
         <Route path="edit/:id" element={<EditBook />} loader={EditBookLoader} />
       </Route>
       <Route path="authors" element={<AuthorsLayout />}>
-        <Route index element={<Authors />} loader={AuthorsLoader} />
+        <Route index element={<Authors />} />
         <Route path="add" element={<AddAuthor />} />
+        <Route path="edit/:id" element={<EditAuthor />} />
       </Route>
       <Route path="genres" element={<GenresLayout />}>
-        <Route index element={<Genres />} loader={GenresLoader} />
+        <Route index element={<Genres />} />
         <Route path="add" element={<AddGenre />} />
+        <Route path="edit/:id" element={<EditGenre />}></Route>
       </Route>
 
       <Route path="*" element={<NotFound />} />
@@ -44,7 +65,13 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <GenreProvider>
+      <AuthorProvider>
+        <RouterProvider router={router} />
+      </AuthorProvider>
+    </GenreProvider>
+  );
 }
 
 export default App;

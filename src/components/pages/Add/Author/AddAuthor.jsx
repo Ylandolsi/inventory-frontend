@@ -1,72 +1,101 @@
 import { z } from "zod";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "./AddAuthor.scss";
+import { AuthorContext } from "@/components/Contexts/AuthorContext";
+import { useNavigate } from "react-router-dom";
 
-export function AddAuthor({ style }) {
+export function AddAuthor({ style, onAuthorClicked }) {
+  const { addAuthor } = useContext(AuthorContext);
+
+  const navigate = useNavigate();
   const formSchema = z.object({
-    authorName: z
+    Name: z
       .string()
       .min(3, { message: "Author name must be at least 3 characters" }),
-    authorBio: z.string().optional().nullable(),
+    Bio: z.string().optional().nullable(),
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(formSchema),
   });
 
+  const isStandalone = location.pathname === "/authors/add";
+
+  const buttonClicked = () => {
+    if (isStandalone) navigate("/authors");
+    else {
+      if (onAuthorClicked) {
+        onAuthorClicked();
+      } else {
+        reset();
+      }
+    }
+  };
+
   const onSubmit = (data) => {
     console.log("Submitted data:", data);
+    addAuthor(data);
+    buttonClicked();
   };
 
   return (
     <div className="auth" style={style}>
       <div className="flex flex-col px-6">
         <p className="AddNewTitle"> Add New Author</p>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
           <div className="boxform gap-2">
             <div className="flex flex-col gap-3">
-              <label htmlFor="authorName" className="text-lg font-[500]">
+              <label htmlFor="Name" className="text-lg font-[500]">
                 Author Name:
               </label>
               <input
-                id="authorName"
-                name="authorName"
+                id="Name"
+                name="Name"
                 className="p-2 w-full md:w-2/3 lg:w-1/2"
-                {...register("authorName")}
+                {...register("Name")}
               />
-              {errors.authorName && (
+              {errors.Name && (
                 <p className="error" style={{ color: "var(--accent)" }}>
-                  {errors.authorName.message}
+                  {errors.Name.message}
                 </p>
               )}
             </div>
             <div className="flex flex-col gap-3">
-              <label htmlFor="authorBio" className="text-lg font-[500]">
+              <label htmlFor="Bio" className="text-lg font-[500]">
                 Author Bio:
               </label>
               <textarea
-                id="authorBio"
-                name="authorBio"
+                id="Bio"
+                name="Bio"
                 className="p-2 w-full h-40"
-                {...register("authorBio")}
+                {...register("Bio")}
               />
             </div>
           </div>
           <div className="flex mt-10 gap-5">
-            <button type="submit" className="btn add">
+            <button
+              type="button"
+              className="btn add"
+              onClick={handleSubmit(onSubmit)}
+            >
               Add Author
             </button>
-            <button type="button" className="btn cancel">
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={buttonClicked}
+            >
               Cancel
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -1,15 +1,21 @@
 import { Plus } from "lucide-react";
-import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import "./Genres.scss";
+import { GenreContext } from "@/components/Contexts/GenreContext";
 
 export function Genres() {
-  const allGenres = useLoaderData();
-  const [Genres, setGenres] = useState(allGenres);
+  const { genres } = useContext(GenreContext);
+  console.log("genres from context", genres);
+  const [Genres, setGenres] = useState(genres);
+
+  useEffect(() => {
+    setGenres(genres);
+  }, [genres]);
+  console.log("Genres from usestate", Genres);
 
   const fetchGenresSearch = async (search) => {
     console.log(search);
-    if (search == "") setGenres(allGenres);
+    if (search == "") setGenres(genres);
     else {
       console.log("fetching");
       const response = await fetch(
@@ -84,13 +90,4 @@ export function Genres() {
       </div>
     </div>
   );
-}
-
-export async function GenresLoader() {
-  const Genres = await fetch("http://localhost:5159/api/Genres");
-  if (!Genres.ok) {
-    throw new Error("Failed to fetch Genres");
-  }
-  console.log(Genres);
-  return await Genres.json();
 }
