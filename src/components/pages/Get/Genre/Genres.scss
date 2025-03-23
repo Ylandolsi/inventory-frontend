@@ -1,5 +1,5 @@
-.DisplayBooks {
-  .addNewBook {
+.DisplayGenres {
+  .addNewGenre {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,11 +29,15 @@
     }
   }
 
-  .books-table-container {
+  .Genres-table-container {
     width: 100%;
   }
-  .books-table {
+  .Genres-table {
     width: 100%;
+    th {
+      background-color: var(--accent20);
+      color: var(--primary);
+    }
     th,
     td {
       border: 1px solid var(--accent40);
@@ -46,11 +50,11 @@
         width: 20%;
       }
       &:nth-child(3) {
-        width: 15%;
+        width: 10%;
       }
       &:nth-child(4) {
         text-align: center;
-        width: 5%;
+        width: 30%;
       }
     }
   }
@@ -58,6 +62,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
     .view-btn {
       color: rgb(100, 167, 0);

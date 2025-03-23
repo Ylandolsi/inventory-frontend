@@ -37,6 +37,16 @@ export function AddBook() {
 
   const onSubmit = (data) => {
     console.log("Submitted data:", data);
+    fetch("http://localhost:5159/api/books", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log("Error:", error));
   };
 
   const [NewGenre, setNewGenre] = useState(false);
@@ -164,7 +174,7 @@ export function AddBook() {
               {authors &&
                 authors.map((author) => (
                   <div key={author.id} className="author-option">
-                    <label className="radio" htmlFor={`author-${author.id}`}>
+                    <label className="radio" htmlFor={author.id}>
                       <input
                         type="radio"
                         id={`author-${author.id}`}
@@ -184,7 +194,7 @@ export function AddBook() {
             )}
           </div>
           <div className="flex mt-10 gap-5">
-            <button className="btn add">Add Author</button>
+            <button className="btn add">Add Book</button>
             <button className="btn cancel">Cancel</button>
           </div>
         </form>

@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import React, { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import "./Books.scss";
+import { Link } from "react-router-dom";
 
 export function Books() {
   const allBooks = useLoaderData();
@@ -72,8 +73,11 @@ export function Books() {
                 <td>{book.quantity}</td>
                 <td>
                   <div className="flexActions">
-                    <button className="view-btn">View</button>
-                    <button className="edit-btn">Edit</button>
+                    <button className="view-btn"> View</button>
+                    <button className="edit-btn">
+                      {" "}
+                      <Link to={`edit/${book.id}`}>Edit</Link>
+                    </button>
                     <button className="delete-btn">Delete</button>
                   </div>
                 </td>

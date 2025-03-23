@@ -1,0 +1,77 @@
+.DisplayBooks {
+  .addNewBook {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    background-color: var(--accent40);
+    cursor: pointer;
+    &:hover {
+      background-color: var(--accent60);
+    }
+  }
+
+  .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    input {
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+      padding: 10px;
+    }
+  }
+
+  .books-table-container {
+    width: 100%;
+  }
+  .books-table {
+    width: 100%;
+    th {
+      background-color: var(--accent20);
+      color: var(--primary);
+    }
+    th,
+    td {
+      border: 1px solid var(--accent40);
+      padding: 10px;
+      text-align: left;
+      &:first-child {
+        width: 25%;
+      }
+      &:nth-child(2) {
+        width: 20%;
+      }
+      &:nth-child(3) {
+        width: 15%;
+      }
+      &:nth-child(4) {
+        text-align: center;
+        width: 5%;
+      }
+    }
+  }
+  .flexActions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    .view-btn {
+      color: rgb(100, 167, 0);
+    }
+    .edit-btn {
+    }
+
+    .delete-btn {
+      color: rgb(174, 94, 94);
+    }
+  }
+}

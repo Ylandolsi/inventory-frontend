@@ -1,0 +1,25 @@
+.autheditform {
+  input,
+  textarea {
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+  }
+
+  .btn.edit {
+    background-color: var(--accent60);
+    color: var(--bg);
+    &:hover {
+      background-color: var(--accent);
+    }
+    transition: all 0.3s ease;
+  }
+
+  .btn.cancel {
+    background-color: var(--secondary20);
+    color: var(--text);
+    &:hover {
+      background-color: var(--secondary);
+    }
+    transition: all 0.3s ease;
+  }
+}
