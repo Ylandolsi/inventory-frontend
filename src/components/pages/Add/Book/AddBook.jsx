@@ -12,8 +12,8 @@ import { AuthorContext } from "@/components/Contexts/AuthorContext";
 import { useNavigate } from "react-router-dom";
 
 export function AddBook() {
-  const { genres } = useContext(GenreContext);
-  const { authors } = useContext(AuthorContext);
+  const { genres, refreshGenres } = useContext(GenreContext);
+  const { authors, refreshAuthors } = useContext(AuthorContext);
 
   const navigate = useNavigate();
 
@@ -55,6 +55,8 @@ export function AddBook() {
       .then((response) => response.json())
       .then((responseJson) => console.log(responseJson))
       .then(() => {
+        refreshGenres();
+        refreshAuthors();
         navigate("/books");
       })
       .catch((error) => console.log("Error:", error));

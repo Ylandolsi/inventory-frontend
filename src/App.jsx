@@ -11,7 +11,7 @@ import { NotFound } from "./components/pages/NotFound.jsx";
 import { Error } from "./components/pages/Error.jsx";
 
 // Fetch
-import { Books, BooksLoader } from "./components/pages/Get/Book/Books.jsx";
+import { Books } from "./components/pages/Get/Book/Books.jsx";
 import { Authors } from "./components/pages/Get/Author/Authors.jsx";
 import { Genres } from "./components/pages/Get/Genre/Genres.jsx";
 
@@ -38,13 +38,13 @@ import { EditGenre } from "./components/pages/Edit/Genre/EditGenre.jsx";
 // Contexts
 import { GenreProvider } from "./components/Contexts/GenreContext.jsx";
 import { AuthorProvider } from "./components/Contexts/AuthorContext.jsx";
-
+import { BookProvider } from "./components/Contexts/BookContext.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />} errorElement={<Error />}>
       <Route index element={<Home />} />
       <Route path="books" element={<BooksLayout />}>
-        <Route index element={<Books />} loader={BooksLoader} />
+        <Route index element={<Books />} />
         <Route path="add" element={<AddBook />} />
         <Route path="edit/:id" element={<EditBook />} loader={EditBookLoader} />
       </Route>
@@ -66,11 +66,13 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <GenreProvider>
-      <AuthorProvider>
-        <RouterProvider router={router} />
-      </AuthorProvider>
-    </GenreProvider>
+    <BookProvider>
+      <GenreProvider>
+        <AuthorProvider>
+          <RouterProvider router={router} />
+        </AuthorProvider>
+      </GenreProvider>
+    </BookProvider>
   );
 }
 

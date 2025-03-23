@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState, useEffect, createContext } from "react";
 
 export const AuthorContext = createContext();
 
 export const AuthorProvider = ({ children }) => {
   const [authors, setAuthors] = useState([]);
-  useEffect(() => {
-    const fetchAuthors = async () => {
-      try {
-        const response = await fetch("http://localhost:5159/api/authors");
-        const data = await response.json();
-        setAuthors(data);
-      } catch (error) {
-        console.error("Error fetching authors:", error);
-      }
-    };
-    fetchAuthors();
+
+  // to avoid re render the function each time the component is rendered
+  const fetchAuthors = useCallback(async () => {
+    try {
+      const response = await fetch("http://localhost:5159/api/authors");
+      const data = await response.json();
+      setAuthors(data);
+    } catch (error) {
+      console.error("Error fetching authors:", error);
+    }
   }, []);
+  useEffect(() => {
+    fetchAuthors();
+  }, [fetchAuthors]);
 
   const addAuthor = async (newAuthor) => {
     try {
@@ -38,7 +40,9 @@ export const AuthorProvider = ({ children }) => {
   };
 
   return (
-    <AuthorContext.Provider value={{ authors, addAuthor }}>
+    <AuthorContext.Provider
+      value={{ authors, addAuthor, refreshAuthors: fetchAuthors }}
+    >
       {children}
     </AuthorContext.Provider>
   );

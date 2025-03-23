@@ -1,16 +1,16 @@
-import { Plus } from "lucide-react";
-import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { Book, Plus } from "lucide-react";
+import React, { useContext, useState } from "react";
 import "./Books.scss";
 import { Link } from "react-router-dom";
+import { BookContext } from "@/components/Contexts/BookContext";
 
 export function Books() {
-  const allBooks = useLoaderData();
-  const [books, setBooks] = useState(allBooks);
+  const { Books } = useContext(BookContext);
+  const [books, setBooks] = useState(Books);
 
   const fetchBooksSearch = async (search) => {
     console.log(search);
-    if (search == "") setBooks(allBooks);
+    if (search == "") setBooks(Books);
     else {
       console.log("fetching");
       const response = await fetch(
@@ -42,7 +42,9 @@ export function Books() {
         <p style={{ fontSize: "1.4rem", fontWeight: "bold" }}>Books</p>
         <div className="addNewBook">
           <Plus size={25} />
-          <p style={{ fontSize: "0.9rem" }}>Add New Book</p>
+          <p style={{ fontSize: "0.9rem" }}>
+            <Link to="add">Add New Book</Link>
+          </p>
         </div>
       </div>
       <div className="search-container">
@@ -88,13 +90,4 @@ export function Books() {
       </div>
     </div>
   );
-}
-
-export async function BooksLoader() {
-  const books = await fetch("http://localhost:5159/api/books");
-  if (!books.ok) {
-    throw new Error("Failed to fetch books");
-  }
-  console.log(books);
-  return await books.json();
 }

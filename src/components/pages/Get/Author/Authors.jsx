@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import "./Authors.scss";
 import { AuthorContext } from "@/components/Contexts/AuthorContext";
+import { Link } from "react-router-dom";
 
 export function Authors() {
   const { authors } = useContext(AuthorContext);
@@ -45,7 +46,10 @@ export function Authors() {
         <p style={{ fontSize: "1.4rem", fontWeight: "bold" }}>Authors</p>
         <div className="addNewAuthor">
           <Plus size={25} />
-          <p style={{ fontSize: "0.9rem" }}>Add New Author</p>
+          <p style={{ fontSize: "0.9rem" }}>
+            {" "}
+            <Link to="add"> Add New Author</Link>
+          </p>
         </div>
       </div>
       <div className="search-container">

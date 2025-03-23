@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import "./Genres.scss";
 import { GenreContext } from "@/components/Contexts/GenreContext";
+import { Link } from "react-router-dom";
 
 export function Genres() {
   const { genres } = useContext(GenreContext);
@@ -47,7 +48,9 @@ export function Genres() {
         <p style={{ fontSize: "1.4rem", fontWeight: "bold" }}>Genres</p>
         <div className="addNewGenre">
           <Plus size={25} />
-          <p style={{ fontSize: "0.9rem" }}>Add New Genre</p>
+          <p style={{ fontSize: "0.9rem" }}>
+            <Link to="add"> Add New Genre </Link>
+          </p>
         </div>
       </div>
       <div className="search-container">

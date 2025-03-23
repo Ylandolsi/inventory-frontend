@@ -1,23 +1,23 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 
 export const GenreContext = createContext();
 
 export const GenreProvider = ({ children }) => {
   const [genres, setGenres] = useState([]);
 
-  useEffect(() => {
-    const fetchGenres = async () => {
-      try {
-        const response = await fetch("http://localhost:5159/api/genres");
-        const data = await response.json();
-        setGenres(data);
-      } catch (error) {
-        console.error("Error fetching genres:", error);
-      }
-    };
-
-    fetchGenres();
+  const fetchGenres = useCallback(async () => {
+    try {
+      const response = await fetch("http://localhost:5159/api/genres");
+      const data = await response.json();
+      setGenres(data);
+    } catch (error) {
+      console.error("Error fetching genres:", error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchGenres();
+  }, [fetchGenres]);
 
   const addGenre = async (newGenre) => {
     try {
@@ -39,7 +39,9 @@ export const GenreProvider = ({ children }) => {
   };
 
   return (
-    <GenreContext.Provider value={{ genres, addGenre }}>
+    <GenreContext.Provider
+      value={{ genres, addGenre, refreshGenres: fetchGenres }}
+    >
       {children}
     </GenreContext.Provider>
   );
