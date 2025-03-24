@@ -32,8 +32,14 @@ import {
   EditBookLoader,
 } from "./components/pages/Edit/Book/EditBook.jsx";
 
-import { EditAuthor } from "./components/pages/Edit/Author/EditAuthor.jsx";
-import { EditGenre } from "./components/pages/Edit/Genre/EditGenre.jsx";
+import {
+  EditAuthor,
+  EditAuthorLoader,
+} from "./components/pages/Edit/Author/EditAuthor.jsx";
+import {
+  EditGenre,
+  EditGenreLoader,
+} from "./components/pages/Edit/Genre/EditGenre.jsx";
 
 // Contexts
 import { GenreProvider } from "./components/Contexts/GenreContext.jsx";
@@ -51,12 +57,20 @@ const router = createBrowserRouter(
       <Route path="authors" element={<AuthorsLayout />}>
         <Route index element={<Authors />} />
         <Route path="add" element={<AddAuthor />} />
-        <Route path="edit/:id" element={<EditAuthor />} />
+        <Route
+          path="edit/:id"
+          element={<EditAuthor />}
+          loader={EditAuthorLoader}
+        />
       </Route>
       <Route path="genres" element={<GenresLayout />}>
         <Route index element={<Genres />} />
         <Route path="add" element={<AddGenre />} />
-        <Route path="edit/:id" element={<EditGenre />}></Route>
+        <Route
+          path="edit/:id"
+          element={<EditGenre />}
+          loader={EditGenreLoader}
+        ></Route>
       </Route>
 
       <Route path="*" element={<NotFound />} />

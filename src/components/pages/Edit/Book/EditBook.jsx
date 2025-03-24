@@ -1,50 +1,80 @@
-import { useLoaderData, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./EditBook.scss";
-import { EditAuthor } from "../Author/EditAuthor";
-import { EditGenre } from "../Genre/EditGenre";
+import { AddAuthor } from "../../Add/Author/AddAuthor";
+import { AddGenre } from "../../Add/Genre/AddGenre";
 
 import { z } from "zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GenreContext } from "@/components/Contexts/GenreContext";
+import { AuthorContext } from "@/components/Contexts/AuthorContext";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { BookContext } from "@/components/Contexts/BookContext";
 
 export function EditBook() {
-  const { id } = useParams();
-  const { authors, genres, bookData } = useLoaderData();
+  const { genres, refreshGenres } = useContext(GenreContext);
+  const { authors, refreshAuthors } = useContext(AuthorContext);
+
+  const { editBook } = useContext(BookContext);
+
+  const { bookData } = useLoaderData();
+
+  const navigate = useNavigate();
 
   const formSchema = z.object({
-    bookTitle: z
+    id: z.number().int(),
+    title: z
       .string()
       .min(3, { message: "BookTitle must be at least 3 characters" }),
-    genreDescription: z.string().optional().nullable(),
-    bookQuantity: z.coerce
+    description: z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? "No description available" : val))
+      .default("No description available"),
+    quantity: z.coerce
       .number()
       .int()
       .min(1, { message: "Quantity must be at least 1" }),
-    genreName: z.string().min(1, { message: "Please select a genre" }),
-    authorName: z.string({
+    genreid: z.coerce
+      .number()
+      .int()
+      .min(1, { message: "Please select a genre" }),
+    authorid: z.coerce.number().int().min(1, {
       message: "Please select an author",
     }),
   });
 
+  if (!bookData) {
+    return <div>Loading...</div>;
+  }
+
+  console.log(bookData);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      id: bookData.id,
+      title: bookData.title,
+      description: bookData.description,
+      quantity: bookData.quantity,
+      authorid: bookData.authorId,
+      genreid: bookData.genreId,
+    },
   });
 
-  const onSubmit = (data) => {
-    console.log("Submitted data:", data);
+  const onSubmit = async (data) => {
+    await editBook(data, refreshAuthors, refreshGenres);
+    navigate("/books");
   };
 
   const [NewGenre, setNewGenre] = useState(false);
   const [NewAuthor, setNewAuthor] = useState(false);
 
   const ToggleNewGenre = () => {
-    console.log("toggle");
     setNewGenre(!NewGenre);
   };
   const ToggleNewAuthor = () => {
@@ -59,48 +89,45 @@ export function EditBook() {
           <div className="boxform gap-2 ">
             <p className="smallHeader">Book Details </p>
             <div className="flex flex-col gap-3">
-              <label htmlFor="bookTitle" className="text-lg font-[500]">
+              <label htmlFor="title" className="text-lg font-[500]">
                 Book Title:
               </label>
               <input
-                id="bookTitle"
-                name="bookTitle"
-                defaultValue={bookData.title}
+                id="title"
+                name="title"
                 className="p-2 w-full md:w-2/3 lg:w-1/2 "
-                {...register("bookTitle")}
+                {...register("title")}
               />
-              {errors.bookTitle && (
+              {errors.title && (
                 <p className="error" style={{ color: "var(--accent)" }}>
-                  {errors.bookTitle.message}
+                  {errors.title.message}
                 </p>
               )}
             </div>
             <div className="flex flex-col gap-3">
-              <label htmlFor="bookDescription" className="text-lg font-[500]">
+              <label htmlFor="description" className="text-lg font-[500]">
                 Description:
               </label>
               <textarea
-                id="bookDescription"
-                name="bookDescription"
-                defaultValue={bookData.description}
+                id="description"
+                name="description"
                 className="p-2 w-full  h-40"
-                {...register("bookDescription")}
+                {...register("description")}
               />
             </div>
             <div className="flex flex-col gap-3">
-              <label htmlFor="bookQuantity" className="text-lg font-[500]">
+              <label htmlFor="quantity" className="text-lg font-[500]">
                 Quantity:
               </label>
               <input
-                id="bookQuantity"
-                name="bookQuantity"
+                id="quantity"
+                name="quantity"
                 className="p-2"
-                defaultValue={bookData.quantity}
-                {...register("bookQuantity")}
+                {...register("quantity")}
               />
-              {errors.bookQuantity && (
+              {errors.quantity && (
                 <p className="error" style={{ color: "var(--accent)" }}>
-                  {errors.bookQuantity.message}
+                  {errors.quantity.message}
                 </p>
               )}
             </div>
@@ -112,18 +139,24 @@ export function EditBook() {
               </div>
             </div>
 
-            {NewGenre && <EditGenre style={{ marginBottom: "20px" }} />}
+            {NewGenre && (
+              <AddGenre
+                style={{ marginBottom: "20px" }}
+                onGenreClicked={() => {
+                  setNewGenre(false);
+                }}
+              />
+            )}
 
             <select
-              id="genreName"
-              name="genreName"
-              {...register("genreName")}
+              id="genreid"
+              name="genreid"
+              {...register("genreid")}
               style={{
                 padding: "10px",
                 border: "1px solid #ccc",
                 borderRadius: "5px",
               }}
-              defaultValue={bookData.idGenre}
             >
               {genres && (
                 <>
@@ -144,9 +177,9 @@ export function EditBook() {
                 </>
               )}
             </select>
-            {errors.genreName && (
+            {errors.genreid && (
               <p className="error" style={{ color: "var(--accent)" }}>
-                {errors.genreName.message}
+                {errors.genreid.message}
               </p>
             )}
 
@@ -157,7 +190,14 @@ export function EditBook() {
               </div>
             </div>
 
-            {NewAuthor && <EditAuthor style={{ marginBottom: "20px" }} />}
+            {NewAuthor && (
+              <AddAuthor
+                style={{ marginBottom: "20px" }}
+                onAuthorClicked={() => {
+                  setNewAuthor(false);
+                }}
+              />
+            )}
             <div
               className="author-selection"
               style={{
@@ -173,49 +213,49 @@ export function EditBook() {
                       <input
                         type="radio"
                         id={author.id}
-                        name="author"
+                        name="authorid"
                         value={author.id}
-                        defaultChecked={author.id === bookData.idAuthor}
-                        {...register("authorName")}
+                        defaultChecked={author.id === bookData.authorId}
+                        {...register("authorid")}
                       />
                       <span>{author.name}</span>
                     </label>
                   </div>
                 ))}
             </div>
-            {errors.authorName && (
+            {errors.authorid && (
               <p className="error" style={{ color: "var(--accent)" }}>
-                {errors.authorName.message}
+                {errors.authorid.message}
               </p>
             )}
           </div>
           <div className="flex mt-10 gap-5">
-            <button className="btn add">Edit Book</button>
-            <button className="btn cancel">Cancel</button>
+            <button className="btn add">Update Book</button>
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={() => navigate("/books")}
+            >
+              Cancel
+            </button>
           </div>
         </form>
       </div>
     </div>
   );
 }
+
 export const EditBookLoader = async ({ params }) => {
   const { id } = params;
-  const [authorsResponse, genresResponse, bookIdData] = await Promise.all([
-    fetch("http://localhost:5159/api/authors"),
-    fetch("http://localhost:5159/api/genres"),
+  const [bookIdData] = await Promise.all([
     fetch(`http://localhost:5159/api/books/${id}`),
   ]);
-  console.log(authorsResponse);
-  console.log(genresResponse);
-  console.log(bookIdData);
 
-  if (!authorsResponse.ok || !genresResponse.ok || !bookIdData.ok) {
+  if (!bookIdData.ok) {
     throw Error("Could not fetch required data");
   }
 
-  const authors = await authorsResponse.json();
-  const genres = await genresResponse.json();
   const bookData = await bookIdData.json();
 
-  return { authors, genres, bookData };
+  return { bookData };
 };

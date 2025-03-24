@@ -24,7 +24,11 @@ export function AddBook() {
     title: z
       .string()
       .min(3, { message: "BookTitle must be at least 3 characters" }),
-    description: z.string().optional().nullable().default(""),
+    description: z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? "No description available" : val))
+      .default("No description available"),
     quantity: z.coerce
       .number()
       .int()

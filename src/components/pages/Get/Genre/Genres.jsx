@@ -1,37 +1,20 @@
 import { Plus } from "lucide-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import "./Genres.scss";
 import { GenreContext } from "@/components/Contexts/GenreContext";
 import { Link } from "react-router-dom";
+import { AuthorContext } from "@/components/Contexts/AuthorContext";
+import { BookContext } from "@/components/Contexts/BookContext";
 
 export function Genres() {
-  const { genres } = useContext(GenreContext);
-  console.log("genres from context", genres);
-  const [Genres, setGenres] = useState(genres);
+  const { genres, fetchGenresSearch, deleteGenre } = useContext(GenreContext);
+  const { refreshAuthors } = useContext(AuthorContext);
+  const { refreshBooks } = useContext(BookContext);
 
-  useEffect(() => {
-    setGenres(genres);
-  }, [genres]);
-  console.log("Genres from usestate", Genres);
-
-  const fetchGenresSearch = async (search) => {
-    console.log(search);
-    if (search == "") setGenres(genres);
-    else {
-      console.log("fetching");
-      const response = await fetch(
-        `http://localhost:5159/api/Genres/search?query=${search}`
-      );
-      console.log(response);
-      if (!response.ok) {
-        throw new Error("Failed to fetch Genres");
-      }
-      setGenres(await response.json());
-    }
-    console.log(Genres);
+  const handleDelete = async (id) => {
+    console.log("Deleting genre with id:", id);
+    await deleteGenre(id, refreshAuthors, refreshBooks);
   };
-
-  console.log(Genres);
   return (
     <div
       className="DisplayGenres"
@@ -72,7 +55,7 @@ export function Genres() {
             </tr>
           </thead>
           <tbody>
-            {Genres.map((Genre) => (
+            {genres.map((Genre) => (
               <tr key={Genre.id}>
                 <td>{Genre.name}</td>
                 <td>{Genre.description}</td>
@@ -81,9 +64,15 @@ export function Genres() {
                 </td>
                 <td>
                   <div className="flexActions">
-                    <button className="view-btn">View</button>
-                    <button className="edit-btn">Edit</button>
-                    <button className="delete-btn">Delete</button>
+                    <button className="edit-btn">
+                      <Link to={`edit/${Genre.id}`}>Edit</Link>
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(Genre.id)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </td>
               </tr>

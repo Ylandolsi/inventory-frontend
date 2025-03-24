@@ -43,22 +43,12 @@
       border: 1px solid var(--accent40);
       padding: 10px;
       text-align: left;
-      &:first-child {
-        width: 25%;
-      }
-      &:nth-child(2) {
-        width: 20%;
-      }
-      &:nth-child(3) {
-        width: 15%;
-      }
-      &:nth-child(4) {
-        text-align: center;
-        width: 30%;
-      }
     }
   }
   .flexActions {
+    table-layout: fixed;
+    border-collapse: collapse;
+    word-wrap: break-word;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,12 +56,24 @@
     gap: 10px;
     .view-btn {
       color: rgb(100, 167, 0);
+      cursor: pointer;
+      &:hover {
+        color: rgb(0, 255, 0);
+      }
     }
     .edit-btn {
+      cursor: pointer;
+      &:hover {
+        color: var(--primary);
+      }
     }
 
     .delete-btn {
       color: rgb(174, 94, 94);
+      cursor: pointer;
+      &:hover {
+        color: rgb(255, 0, 0);
+      }
     }
   }
 }

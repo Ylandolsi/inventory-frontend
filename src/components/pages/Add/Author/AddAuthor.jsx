@@ -5,16 +5,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import "./AddAuthor.scss";
 import { AuthorContext } from "@/components/Contexts/AuthorContext";
 import { useNavigate } from "react-router-dom";
+import { BookContext } from "@/components/Contexts/BookContext";
+import { GenreContext } from "@/components/Contexts/GenreContext";
 
 export function AddAuthor({ style, onAuthorClicked }) {
   const { addAuthor } = useContext(AuthorContext);
+
+  const { refreshBooks } = useContext(BookContext);
+  const { refreshGenres } = useContext(GenreContext);
 
   const navigate = useNavigate();
   const formSchema = z.object({
     Name: z
       .string()
       .min(3, { message: "Author name must be at least 3 characters" }),
-    Bio: z.string().optional().nullable(),
+    Bio: z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? "No bio available" : val))
+      .default("No bio available"),
   });
 
   const {
@@ -41,7 +50,7 @@ export function AddAuthor({ style, onAuthorClicked }) {
 
   const onSubmit = (data) => {
     console.log("Submitted data:", data);
-    addAuthor(data);
+    addAuthor(data, refreshBooks, refreshGenres);
     buttonClicked();
   };
 

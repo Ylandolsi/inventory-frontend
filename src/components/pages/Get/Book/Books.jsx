@@ -1,35 +1,26 @@
 import { Book, Plus } from "lucide-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import "./Books.scss";
 import { Link } from "react-router-dom";
 import { BookContext } from "@/components/Contexts/BookContext";
+import { AuthorContext } from "@/components/Contexts/AuthorContext";
+import { GenreContext } from "@/components/Contexts/GenreContext";
 
 export function Books() {
-  const { Books } = useContext(BookContext);
-  const [books, setBooks] = useState(Books);
+  const { Books, deleteBook, fetchBooksSearch } = useContext(BookContext);
+  const { refreshAuthors } = useContext(AuthorContext);
+  const { refreshGenres } = useContext(GenreContext);
 
-  useEffect(() => {
-    setBooks(Books);
-  }, [Books]);
+  if (Books === null) {
+    return <div>Loading...</div>;
+  }
 
-  const fetchBooksSearch = async (search) => {
-    console.log(search);
-    if (search == "") setBooks(Books);
-    else {
-      console.log("fetching");
-      const response = await fetch(
-        `http://localhost:5159/api/books/search?query=${search}`
-      );
-      console.log(response);
-      if (!response.ok) {
-        throw new Error("Failed to fetch books");
-      }
-      setBooks(await response.json());
-    }
-    console.log(books);
+  console.log(Books);
+  const handleDelete = async (id) => {
+    console.log("Deleting book with id:", id);
+    await deleteBook(id, refreshAuthors, refreshGenres);
   };
 
-  console.log(books);
   return (
     <div
       className="DisplayBooks"
@@ -71,7 +62,7 @@ export function Books() {
             </tr>
           </thead>
           <tbody>
-            {books.map((book) => (
+            {Books.map((book) => (
               <tr key={book.id}>
                 <td>{book.title}</td>
                 <td>{book.author}</td>
@@ -79,12 +70,16 @@ export function Books() {
                 <td>{book.quantity}</td>
                 <td>
                   <div className="flexActions">
-                    <button className="view-btn"> View</button>
                     <button className="edit-btn">
                       {" "}
                       <Link to={`edit/${book.id}`}>Edit</Link>
                     </button>
-                    <button className="delete-btn">Delete</button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(book.id)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </td>
               </tr>

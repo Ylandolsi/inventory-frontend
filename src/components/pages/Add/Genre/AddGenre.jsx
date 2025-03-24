@@ -5,15 +5,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import "./AddGenre.scss";
 import { GenreContext } from "@/components/Contexts/GenreContext";
 import { useNavigate } from "react-router-dom";
+import { AuthorContext } from "@/components/Contexts/AuthorContext";
+import { BookContext } from "@/components/Contexts/BookContext";
 export function AddGenre({ style, onGenreClicked }) {
   const { addGenre } = useContext(GenreContext);
   const navigate = useNavigate();
+
+  const { refreshAuthors } = useContext(AuthorContext);
+  const { refreshBooks } = useContext(BookContext);
 
   const formSchema = z.object({
     Name: z
       .string()
       .min(3, { message: "Genre name must be at least 3 characters" }),
-    Description: z.string().optional().nullable(),
+    Description: z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? "No description available" : val))
+      .default("No description available"),
   });
 
   const isStandalone = location.pathname === "/genres/add";
@@ -40,7 +49,7 @@ export function AddGenre({ style, onGenreClicked }) {
 
   const onSubmit = (data) => {
     console.log("Submitted data:", data);
-    addGenre(data);
+    addGenre(data, refreshAuthors, refreshBooks);
     buttonClicked();
   };
   return (
