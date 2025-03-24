@@ -15,12 +15,31 @@ export function BookProvider({ children }) {
     }
   }, []);
 
+  const addBook = async (book, refreshAuthors, refreshGenres) => {
+    try {
+      const response = await fetch("http://localhost:5159/api/books", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(book),
+      });
+      const data = await response.json();
+      console.log("Book added:", data);
+      fetchBooks();
+      refreshAuthors();
+      refreshGenres();
+    } catch (error) {
+      console.error("Error adding book:", error);
+    }
+  };
+
   useEffect(() => {
     fetchBooks();
   }, [fetchBooks]);
 
   return (
-    <BookContext.Provider value={{ Books, refreshBooks: fetchBooks }}>
+    <BookContext.Provider value={{ Books, addBook, refreshBooks: fetchBooks }}>
       {children}
     </BookContext.Provider>
   );

@@ -1,5 +1,5 @@
 import { Book, Plus } from "lucide-react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Books.scss";
 import { Link } from "react-router-dom";
 import { BookContext } from "@/components/Contexts/BookContext";
@@ -7,6 +7,10 @@ import { BookContext } from "@/components/Contexts/BookContext";
 export function Books() {
   const { Books } = useContext(BookContext);
   const [books, setBooks] = useState(Books);
+
+  useEffect(() => {
+    setBooks(Books);
+  }, [Books]);
 
   const fetchBooksSearch = async (search) => {
     console.log(search);

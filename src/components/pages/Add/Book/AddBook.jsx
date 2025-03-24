@@ -10,10 +10,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { GenreContext } from "@/components/Contexts/GenreContext";
 import { AuthorContext } from "@/components/Contexts/AuthorContext";
 import { useNavigate } from "react-router-dom";
+import { BookContext } from "@/components/Contexts/BookContext";
 
 export function AddBook() {
   const { genres, refreshGenres } = useContext(GenreContext);
   const { authors, refreshAuthors } = useContext(AuthorContext);
+
+  const { addBook } = useContext(BookContext);
 
   const navigate = useNavigate();
 
@@ -44,22 +47,8 @@ export function AddBook() {
   });
 
   const onSubmit = (data) => {
-    console.log("Submitted data:", data);
-    fetch("http://localhost:5159/api/books", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => console.log(responseJson))
-      .then(() => {
-        refreshGenres();
-        refreshAuthors();
-        navigate("/books");
-      })
-      .catch((error) => console.log("Error:", error));
+    addBook(data, refreshAuthors, refreshGenres);
+    navigate("/books");
   };
 
   const [NewGenre, setNewGenre] = useState(false);
