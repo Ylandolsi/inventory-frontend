@@ -1,5 +1,9 @@
 import { useState, createContext, useCallback, useEffect } from "react";
 
+const API_BASE_URL = import.meta.env.PROD
+  ? 'https://inventory-api-la8y.onrender.com/api'
+  : 'http://localhost:5159/api';
+
 export const BookContext = createContext();
 
 export function BookProvider({ children }) {
@@ -8,7 +12,7 @@ export function BookProvider({ children }) {
 
   const fetchBooks = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:5159/api/books");
+      const response = await fetch(`${API_BASE_URL}/books`);
       const data = await response.json();
       setBooks(data);
       setAllBooksCache(data);
@@ -26,7 +30,7 @@ export function BookProvider({ children }) {
       else {
         console.log("fetching");
         const response = await fetch(
-          `http://localhost:5159/api/books/search?query=${search}`
+          `${API_BASE_URL}/books/search?query=${search}`
         );
         console.log(response);
         if (!response.ok) {
@@ -41,7 +45,7 @@ export function BookProvider({ children }) {
 
   const addBook = async (book, refreshAuthors, refreshGenres) => {
     try {
-      const response = await fetch("http://localhost:5159/api/books", {
+      const response = await fetch(`${API_BASE_URL}/books`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +68,7 @@ export function BookProvider({ children }) {
     console.log(book);
     try {
       const response = await fetch(
-        `http://localhost:5159/api/books/${book.id}`,
+        `${API_BASE_URL}/books/${book.id}`,
         {
           method: "PUT",
           headers: {
@@ -101,7 +105,7 @@ export function BookProvider({ children }) {
 
   const deleteBook = async (id, refreshAuthors, refreshGenres) => {
     try {
-      const response = await fetch(`http://localhost:5159/api/books/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/books/${id}`, {
         method: "DELETE",
       });
 

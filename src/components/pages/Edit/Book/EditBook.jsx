@@ -12,6 +12,10 @@ import { AuthorContext } from "@/components/Contexts/AuthorContext";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { BookContext } from "@/components/Contexts/BookContext";
 
+const API_BASE_URL = import.meta.env.PROD
+  ? 'https://inventory-api-la8y.onrender.com/api'
+  : 'http://localhost:5159/api';
+
 export function EditBook() {
   const { genres, refreshGenres } = useContext(GenreContext);
   const { authors, refreshAuthors } = useContext(AuthorContext);
@@ -248,7 +252,7 @@ export function EditBook() {
 export const EditBookLoader = async ({ params }) => {
   const { id } = params;
   const [bookIdData] = await Promise.all([
-    fetch(`http://localhost:5159/api/books/${id}`),
+    fetch(`${API_BASE_URL}/books/${id}`),
   ]);
 
   if (!bookIdData.ok) {

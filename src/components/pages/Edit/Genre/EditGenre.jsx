@@ -8,6 +8,10 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { AuthorContext } from "@/components/Contexts/AuthorContext";
 import { BookContext } from "@/components/Contexts/BookContext";
 
+const API_BASE_URL = import.meta.env.PROD
+  ? 'https://inventory-api-la8y.onrender.com/api'
+  : 'http://localhost:5159/api';
+
 export function EditGenre({ style }) {
   const { editGenre } = useContext(GenreContext);
   const navigate = useNavigate();
@@ -110,7 +114,7 @@ export function EditGenre({ style }) {
 export const EditGenreLoader = async ({ params }) => {
   const { id } = params;
   const [genreDataId] = await Promise.all([
-    fetch(`http://localhost:5159/api/genres/${id}`),
+    fetch(`${API_BASE_URL}/genres/${id}`),
   ]);
 
   if (!genreDataId.ok) {

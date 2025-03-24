@@ -1,5 +1,9 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 
+const API_BASE_URL = import.meta.env.PROD
+  ? 'https://inventory-api-la8y.onrender.com/api'
+  : 'http://localhost:5159/api';
+
 export const GenreContext = createContext();
 
 export const GenreProvider = ({ children }) => {
@@ -8,7 +12,7 @@ export const GenreProvider = ({ children }) => {
 
   const fetchGenres = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:5159/api/genres");
+      const response = await fetch(`${API_BASE_URL}/genres`);
       const data = await response.json();
       setGenres(data);
       setAllGenresCache(data);
@@ -24,7 +28,7 @@ export const GenreProvider = ({ children }) => {
       else {
         console.log("fetching");
         const response = await fetch(
-          `http://localhost:5159/api/Genres/search?query=${search}`
+          `${API_BASE_URL}/Genres/search?query=${search}`
         );
         console.log(response);
         if (!response.ok) {
@@ -39,7 +43,7 @@ export const GenreProvider = ({ children }) => {
 
   const addGenre = async (newGenre, refreshAuthors, refreshBooks) => {
     try {
-      const response = await fetch("http://localhost:5159/api/genres", {
+      const response = await fetch(`${API_BASE_URL}/genres`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newGenre),
@@ -61,7 +65,7 @@ export const GenreProvider = ({ children }) => {
   const editGenre = async (genre, refreshAuthors, refreshBooks) => {
     try {
       const response = await fetch(
-        `http://localhost:5159/api/genres/${genre.Id}`,
+        `${API_BASE_URL}/genres/${genre.Id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -85,7 +89,7 @@ export const GenreProvider = ({ children }) => {
 
   const deleteGenre = async (id, refreshAuthors, refreshBooks) => {
     try {
-      const response = await fetch(`http://localhost:5159/api/genres/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/genres/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });

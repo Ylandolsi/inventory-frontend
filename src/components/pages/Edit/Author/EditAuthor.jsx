@@ -8,6 +8,10 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { BookContext } from "@/components/Contexts/BookContext";
 import { GenreContext } from "@/components/Contexts/GenreContext";
 
+const API_BASE_URL = import.meta.env.PROD
+  ? 'https://inventory-api-la8y.onrender.com/api'
+  : 'http://localhost:5159/api';
+
 export function EditAuthor({ style }) {
   const { editAuthor } = useContext(AuthorContext);
 
@@ -114,7 +118,7 @@ export function EditAuthor({ style }) {
 export const EditAuthorLoader = async ({ params }) => {
   const { id } = params;
   const [authorDataId] = await Promise.all([
-    fetch(`http://localhost:5159/api/authors/${id}`),
+    fetch(`${API_BASE_URL}/authors/${id}`),
   ]);
 
   if (!authorDataId.ok) {

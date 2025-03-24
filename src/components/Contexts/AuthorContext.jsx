@@ -1,6 +1,10 @@
 import React, { useCallback } from "react";
 import { useState, useEffect, createContext } from "react";
 
+const API_BASE_URL = import.meta.env.PROD
+  ? 'https://inventory-api-la8y.onrender.com/api'
+  : 'http://localhost:5159/api';
+
 export const AuthorContext = createContext();
 
 export const AuthorProvider = ({ children }) => {
@@ -11,7 +15,7 @@ export const AuthorProvider = ({ children }) => {
   // to avoid re render the function each time the component is rendered
   const fetchAuthors = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:5159/api/authors");
+      const response = await fetch(`${API_BASE_URL}/authors`);
       const data = await response.json();
       setAuthors(data);
       setAllAuthorsCache(data);
@@ -27,7 +31,7 @@ export const AuthorProvider = ({ children }) => {
       else {
         console.log("fetching");
         const response = await fetch(
-          `http://localhost:5159/api/Authors/search?query=${search}`
+          `${API_BASE_URL}/Authors/search?query=${search}`
         );
         console.log(response);
         if (!response.ok) {
@@ -42,7 +46,7 @@ export const AuthorProvider = ({ children }) => {
 
   const addAuthor = async (newAuthor, refreshBooks, refreshGenres) => {
     try {
-      const response = await fetch("http://localhost:5159/api/authors", {
+      const response = await fetch(`${API_BASE_URL}/authors`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAuthor),
@@ -65,7 +69,7 @@ export const AuthorProvider = ({ children }) => {
     console.log(author);
     try {
       const response = await fetch(
-        `http://localhost:5159/api/authors/${author.Id}`,
+        `${API_BASE_URL}/authors/${author.Id}`,
         {
           method: "PUT",
           headers: {
@@ -102,7 +106,7 @@ export const AuthorProvider = ({ children }) => {
 
   const deleteAuthor = async (id, refreshBooks, refreshGenres) => {
     try {
-      const response = await fetch(`http://localhost:5159/api/authors/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/authors/${id}`, {
         method: "DELETE",
       });
 
