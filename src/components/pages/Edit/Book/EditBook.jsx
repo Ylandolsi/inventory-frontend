@@ -20,7 +20,7 @@ export function EditBook() {
   const { genres, refreshGenres } = useContext(GenreContext);
   const { authors, refreshAuthors } = useContext(AuthorContext);
 
-  const { editBook } = useContext(BookContext);
+  const { editBook , refreshBooks } = useContext(BookContext);
 
   const { bookData } = useLoaderData();
 
@@ -71,8 +71,18 @@ export function EditBook() {
   });
 
   const onSubmit = async (data) => {
-    await editBook(data, refreshAuthors, refreshGenres);
-    navigate("/books");
+    try {
+      const result = await editBook(data, refreshAuthors, refreshGenres);
+      if (result?.success) {
+        navigate("/books");
+      }
+    } catch (error) {
+      console.error("EditBook onSubmit error:", error);
+      navigate("/books");
+      await refreshBooks();
+      await refreshAuthors();
+      await refreshGenres();
+    }
   };
 
   const [NewGenre, setNewGenre] = useState(false);

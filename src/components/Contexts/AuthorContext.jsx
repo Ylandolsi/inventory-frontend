@@ -12,6 +12,8 @@ export const AuthorProvider = ({ children }) => {
 
   const [allAuthorsCache, setAllAuthorsCache] = useState([]);
 
+
+
   // to avoid re render the function each time the component is rendered
   const fetchAuthors = useCallback(async () => {
     try {
