@@ -64,9 +64,19 @@ export function BookProvider({ children }) {
   };
 
   const editBook = async (book, refreshAuthors, refreshGenres) => {
-    console.log("Editing book:");
-    console.log(book);
     try {
+      console.log("Editing book:");
+      console.log(book);
+      const payload = {
+        Id: book.id,
+        Title: book.title,
+        Description: book.description || "No description available",
+        Quantity: parseInt(book.quantity),
+        AuthorId: parseInt(book.authorid),
+        GenreId: parseInt(book.genreid),
+      };
+      console.log("Sending payload:", payload);
+      
       const response = await fetch(
         `${API_BASE_URL}/books/${book.id}`,
         {
@@ -74,31 +84,27 @@ export function BookProvider({ children }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(book),
+          body: JSON.stringify(payload),
         }
       );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      
+      if (response.status === 204 || response.ok || response.redirected) {
+        console.log("Book updated successfully");
+        await fetchBooks();
+        await refreshAuthors();
+        await refreshGenres();
+        return { success: true };
       }
-
-      let data = {};
-      const contentType = response.headers.get("content-type");
-      if (
-        contentType &&
-        contentType.includes("application/json") &&
-        response.status !== 204
-      ) {
-        data = await response.json();
-      }
-      console.log("Book edited:", data);
-      await fetchBooks();
-      await refreshAuthors();
-      await refreshGenres();
-      console.log("Refreshed all");
-      return data;
+      
+      console.error(`Response status: ${response.status}, Status Text: ${response.statusText}`);
+      const errorText = await response.text().catch(() => "Unable to get error details");
+      console.error("Error response:", errorText);
+      throw new Error(`HTTP error! status: ${response.status}, details: ${errorText}`);
     } catch (error) {
       console.error("Error editing book:", error);
+      if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+        console.error("Network error - check your connection and CORS configuration");
+      }
       throw error;
     }
   };

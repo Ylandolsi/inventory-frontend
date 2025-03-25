@@ -89,7 +89,7 @@ export function EditBook() {
     <div className="bookaddform">
       <div className="flex flex-col px-6">
         <p className="AddNewTitle"> Edit Book</p>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <div >
           <div className="boxform gap-2 ">
             <p className="smallHeader">Book Details </p>
             <div className="flex flex-col gap-3">
@@ -215,6 +215,7 @@ export function EditBook() {
                   <div key={author.id} className="author-option">
                     <label className="radio" htmlFor={author.id}>
                       <input
+                        key={author.id}
                         type="radio"
                         id={author.id}
                         name="authorid"
@@ -234,7 +235,7 @@ export function EditBook() {
             )}
           </div>
           <div className="flex mt-10 gap-5">
-            <button className="btn add">Update Book</button>
+            <button className="btn add" type="button" onClick={handleSubmit(onSubmit)}>Update Book</button>
             <button
               type="button"
               className="btn cancel"
@@ -243,7 +244,7 @@ export function EditBook() {
               Cancel
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

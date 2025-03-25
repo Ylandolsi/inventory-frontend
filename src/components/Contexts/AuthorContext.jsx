@@ -53,8 +53,7 @@ export const AuthorProvider = ({ children }) => {
       });
 
       if (response.ok) {
-        const newAuthor = await response.json();
-        setAuthors((prevAuthors) => [...prevAuthors, newAuthor]);
+        await fetchAuthors();
         await refreshBooks();
         await refreshGenres();
       } else {

@@ -196,6 +196,7 @@ export function AddBook() {
                   <div key={author.id} className="author-option">
                     <label className="radio" htmlFor={author.id}>
                       <input
+                        key={author.id}
                         type="radio"
                         id={author.id}
                         name="authorid"
